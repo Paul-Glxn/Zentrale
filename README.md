@@ -6,26 +6,32 @@
 <title>Zentrale — Discord Homepage</title>
 <style>
 :root{
-  --bg:#f5f5f5; --card:#ffffff; --text:#111; --muted:#555; --accent:#5865f2; --shadow:rgba(0,0,0,0.1);
+  --bg:#f0f4f8; --card:#ffffff; --text:#111; --muted:#555; --accent:#5865f2; --shadow:rgba(0,0,0,0.08);
+  --accent-light:#7289da;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
 body{background:var(--bg);color:var(--text);}
 a{text-decoration:none;color:inherit;}
 .container{max-width:1000px;margin:20px auto;padding:10px;}
 header{display:flex;justify-content:space-between;align-items:center;padding:10px;}
-.logo{font-weight:bold;font-size:24px;color:var(--accent);}
-nav a{margin-left:10px;padding:6px 10px;border-radius:6px;background:#e0e0e0;font-size:14px;}
-nav button{margin-left:10px;padding:6px 10px;border-radius:6px;background:var(--accent);color:white;border:none;cursor:pointer;}
-.hero{background:#eaf1ff;padding:20px;border-radius:12px;margin-top:10px;box-shadow:0 4px 10px var(--shadow);}
-.hero h1{font-size:28px;margin-bottom:10px;}
-.hero p{margin-bottom:10px;}
-.btn{background:var(--accent);color:white;padding:8px 12px;border:none;border-radius:6px;cursor:pointer;}
-.card{background:var(--card);padding:15px;border-radius:10px;margin-top:12px;box-shadow:0 2px 6px var(--shadow);}
-.editable{border:1px dashed #ccc;padding:6px;border-radius:6px;min-height:24px;}
-.team-member{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee;}
-select, input[type=text]{padding:4px 6px;border-radius:6px;border:1px solid #ccc;}
-section h2{margin-bottom:8px;color:var(--accent);}
-footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;}
+.logo{font-weight:bold;font-size:28px;color:var(--accent);}
+nav a{margin-left:10px;padding:6px 12px;border-radius:8px;background:#e0e0e0;font-size:14px;transition:0.3s;}
+nav a:hover{background:var(--accent-light);color:white;}
+nav button{margin-left:10px;padding:6px 12px;border-radius:8px;background:var(--accent);color:white;border:none;cursor:pointer;transition:0.3s;}
+nav button:hover{opacity:0.9;}
+.hero{background:#dce6ff;padding:25px;border-radius:16px;margin-top:10px;box-shadow:0 6px 16px var(--shadow);}
+.hero h1{font-size:32px;margin-bottom:12px;}
+.hero p, .hero ul{margin-bottom:12px;}
+.hero ul{list-style:none;padding-left:0;}
+.hero ul li{margin-bottom:6px;font-size:16px;}
+.btn{background:var(--accent);color:white;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;transition:0.2s;}
+.btn:hover{opacity:0.85;}
+.card{background:var(--card);padding:20px;border-radius:14px;margin-top:14px;box-shadow:0 4px 12px var(--shadow);}
+.editable{border:1px dashed #ccc;padding:8px;border-radius:8px;min-height:28px;}
+.team-member{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee;}
+select, input[type=text]{padding:6px 8px;border-radius:8px;border:1px solid #ccc;}
+section h2{margin-bottom:10px;color:var(--accent);}
+footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
 </style>
 </head>
 <body>
@@ -77,14 +83,14 @@ footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;}
   <section id="team" class="card">
     <h2>Team</h2>
     <div id="teamList"></div>
-    <div style="margin-top:8px;">
+    <div style="margin-top:10px;">
       <input type="text" id="newName" placeholder="Name hinzufügen" disabled>
       <select id="newRole" disabled>
-        <option>Owner</option>
-        <option>Administrator</option>
-        <option>Entwickler</option>
-        <option>Supporter</option>
-        <option>Test Supporter</option>
+        <option>Owner 👑</option>
+        <option>Administrator 🛠</option>
+        <option>Entwickler 💻</option>
+        <option>Supporter 🛡</option>
+        <option>Test Supporter 🧪</option>
       </select>
       <button id="addMemberBtn" disabled>Hinzufügen</button>
     </div>
@@ -107,7 +113,7 @@ let state={
   about: document.getElementById('aboutText').innerHTML,
   updates: document.getElementById('updatesText').innerHTML,
   rules: document.getElementById('rulesText').innerHTML,
-  team:[{name:'Admin',role:'Owner'}]
+  team:[{name:'Admin',role:'Owner 👑'}]
 };
 
 function renderTeam(){
@@ -116,8 +122,8 @@ function renderTeam(){
   state.team.forEach((m,i)=>{
     const div=document.createElement('div');
     div.className='team-member';
-    div.innerHTML=\`<span>\${m.name} (\${m.role})</span>
-      <span>\${admin? '<button onclick="editRole('+i+')">✏️</button><button onclick="removeMember('+i+')">❌</button>':''}</span>\`;
+    div.innerHTML=`<span>${m.name} (${m.role})</span>
+      <span>${admin? '<button onclick="editRole('+i+')">✏️</button><button onclick="removeMember('+i+')">❌</button>':''}</span>`;
     teamDiv.appendChild(div);
   });
 }
@@ -148,7 +154,7 @@ document.getElementById('addMemberBtn').addEventListener('click',()=>{
 });
 
 function editRole(i){
-  const newRole=prompt('Neue Rolle auswählen:\nOwner,Administrator,Entwickler,Supporter,Test Supporter',state.team[i].role);
+  const newRole=prompt('Neue Rolle auswählen:\nOwner 👑,Administrator 🛠,Entwickler 💻,Supporter 🛡,Test Supporter 🧪',state.team[i].role);
   if(newRole) state.team[i].role=newRole; renderTeam();
 }
 
