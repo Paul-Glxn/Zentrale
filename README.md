@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zentrale — Discord Homepage</title>
+<title>Zentrum — Discord Homepage</title>
 <style>
 :root{
   --bg:#f0f4f8; --card:#ffffff; --text:#111; --muted:#555; --accent:#5865f2; --shadow:rgba(0,0,0,0.08);
@@ -37,7 +37,7 @@ footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
 <body>
 <div class="container">
   <header>
-    <div class="logo">Zentrale</div>
+    <div class="logo">Zentrum</div>
     <nav>
       <a href="#about">Über</a>
       <a href="#updates">Updates</a>
@@ -48,8 +48,8 @@ footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
   </header>
 
   <div class="hero">
-    <h1>Willkommen bei Zentrale 👋</h1>
-    <p>Hey, wir sind Zentrale! Bei uns kannst du Spaß haben, neue Leute kennenlernen und coole Events erleben.</p>
+    <h1>Willkommen bei Zentrum 👋</h1>
+    <p>Hey, wir sind Zentrum! Bei uns kannst du Spaß haben, neue Leute kennenlernen und coole Events erleben.</p>
     <ul>
       <li>😄 Spaßiger Ort für jeden</li>
       <li>🌍 24/7 nette Teamler</li>
@@ -62,7 +62,7 @@ footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
   <section id="about" class="card">
     <h2>Über uns</h2>
     <div id="aboutText" class="editable" contenteditable="false">
-      Wir sind die Zentrale — dein Platz für Spaß, Roleplay und Community. Unser Team ist 24/7 für dich da!
+      Wir sind das Zentrum — dein Platz für Spaß, Roleplay und Community. Unser Team ist 24/7 für dich da!
     </div>
   </section>
 
@@ -103,7 +103,7 @@ footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
     <button id="importBtn" class="btn" disabled>Import JSON</button>
   </div>
 
-  <footer>© 2025 Zentrale Discord Community</footer>
+  <footer>© 2025 Zentrum Discord Community</footer>
 </div>
 
 <script>
@@ -166,13 +166,13 @@ document.getElementById('saveBtn').addEventListener('click',()=>{
   state.about=document.getElementById('aboutText').innerHTML;
   state.updates=document.getElementById('updatesText').innerHTML;
   state.rules=document.getElementById('rulesText').innerHTML;
-  localStorage.setItem('zentrale_state',JSON.stringify(state));
+  localStorage.setItem('zentrum_state',JSON.stringify(state));
   alert('Gespeichert!');
 });
 
 document.getElementById('exportBtn').addEventListener('click',()=>{
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='zentrale_backup.json'; a.click();
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='zentrum_backup.json'; a.click();
 });
 
 document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
@@ -184,7 +184,7 @@ document.getElementById('importFile').addEventListener('change',e=>{
 });
 
 // load saved
-const saved=localStorage.getItem('zentrale_state');
+const saved=localStorage.getItem('zentrum_state');
 if(saved) state=JSON.parse(saved);
 document.getElementById('aboutText').innerHTML=state.about;
 document.getElementById('updatesText').innerHTML=state.updates;
