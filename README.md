@@ -3,310 +3,362 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Zentrale — Dashboard</title>
+  <title>Zentrale — Discord Homepage</title>
+  <meta name="description" content="Offizielle Info-Seite für unseren Discord. Updates, Team, Regeln und Ankündigungen. Bearbeiten nur mit Passwort." />
   <style>
-    :root{--bg:#0f1720;--panel:#0b1220;--accent:#5865f2;--muted:#9aa4b2;--card:#111827}
+    :root{--bg:#0b1020;--card:#0f1726;--muted:#9fb0c8;--accent:#5865f2;--glass:rgba(255,255,255,0.03);--glass-2:rgba(255,255,255,0.02)}
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef6;background:linear-gradient(180deg,#071023 0%, #081324 100%)}
-    .app{display:grid;grid-template-columns:260px 1fr;gap:18px;padding:20px;height:100vh}
-    /* SIDEBAR */
-    .sidebar{background:rgba(255,255,255,0.03);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
-    .logo{font-weight:700;color:var(--accent);font-size:18px}
-    .search{display:flex;gap:8px}
-    .search input{flex:1;background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:inherit}
-    .channels{overflow:auto;padding-right:6px}
-    .channel{padding:8px;border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-    .channel:hover{background:rgba(255,255,255,0.02)}
-    .channel.active{background:rgba(88,101,242,0.12)}
-    .members{margin-top:auto;font-size:13px;color:var(--muted)}
-    /* MAIN */
-    .main{display:flex;flex-direction:column;gap:12px}
-    .topbar{display:flex;justify-content:space-between;align-items:center}
-    .title{font-size:20px;font-weight:700}
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{background:var(--panel);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-    .card{background:rgba(255,255,255,0.03);padding:12px;border-radius:10px}
-    /* collapsible */
-    .item{border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
-    .item-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;cursor:pointer}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:#e6eef6;background:linear-gradient(180deg,#030417 0%, #071022 100%)}
+    a{color:inherit}
+    .container{max-width:1100px;margin:28px auto;padding:20px;}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#314cff);display:flex;align-items:center;justify-content:center;font-weight:700}
+    h1{margin:0;font-size:20px}
+    nav{display:flex;gap:10px}
+    nav a{padding:8px 12px;border-radius:10px;background:var(--glass);text-decoration:none;font-size:14px}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:20px}
+    .card{background:linear-gradient(180deg,var(--card),rgba(10,16,28,0.8));padding:18px;border-radius:14px;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+    .hero-left h2{margin:0 0 8px 0}
+    .lead{color:var(--muted);margin-bottom:12px}
+    .cta{display:flex;gap:8px;margin-top:12px}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04)}
+    .stats{display:flex;gap:10px;margin-top:12px}
+    .stat{background:var(--glass);padding:10px;border-radius:8px;text-align:center;min-width:100px}
+
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:18px;margin-top:18px}
+    .section-title{display:flex;justify-content:space-between;align-items:center}
+    .collapsible{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .collapsible .head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;background:linear-gradient(90deg,rgba(0,0,0,0.25),transparent)}
     .chev{transition:transform .25s}
-    .chev.open{transform:rotate(90deg)}
-    .item-body{max-height:0;overflow:hidden;transition:max-height .28s ease;padding:0 12px}
-    .item-body.open{padding:10px 12px;}
-    .editable{min-height:60px;border-radius:6px;padding:8px;border:1px dashed rgba(255,255,255,0.04);outline:none}
-    .meta{font-size:12px;color:var(--muted);display:flex;gap:10px;align-items:center}
-    .inline{display:flex;gap:8px;align-items:center}
-    /* small forms */
-    .small-input{padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    .hidden{display:none}
-    .notice{font-size:13px;color:var(--muted)}
-    footer{font-size:12px;color:var(--muted);text-align:right}
-    /* responsive */
-    @media(max-width:800px){.app{grid-template-columns:1fr;grid-auto-rows:auto;padding:12px}}
+    .body{padding:14px;border-top:1px solid rgba(255,255,255,0.02);max-height:0;overflow:hidden;transition:max-height .28s ease}
+    .body.open{max-height:1000px}
+    .editable{min-height:80px;border-radius:8px;padding:10px;border:1px dashed rgba(255,255,255,0.04);outline:none;background:transparent}
+    .meta{font-size:13px;color:var(--muted)}
+
+    .right .card{margin-bottom:12px}
+    .member-list{display:flex;flex-direction:column;gap:6px}
+    .member{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:var(--glass-2)}
+
+    footer{margin-top:18px;color:var(--muted);text-align:center;font-size:13px}
+
+    .banner{background:linear-gradient(135deg,var(--accent),#314cff);padding:28px;border-radius:14px;margin-top:28px;color:white;text-align:center}
+    .banner h2{margin:0 0 12px 0;font-size:26px}
+    .banner p{margin:0;font-size:16px}
+
+    @media(max-width:980px){.hero{grid-template-columns:1fr} .grid{grid-template-columns:1fr} .container{padding:12px}}
   </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">Zentrale</div>
-    <div class="search"><input id="quickSearch" placeholder="Suche..." /></div>
-    <div class="channels" id="channelsList">
-      <div class="channel active" data-channel="all"># Übersicht</div>
-      <div class="channel" data-channel="updates"># Updates</div>
-      <div class="channel" data-channel="team"># Team</div>
-      <div class="channel" data-channel="announcements"># Ankündigungen</div>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">Z</div>
+        <div>
+          <h1>Zentrale — Discord Info</h1>
+          <div class="meta">Offizielle Infoseite für unseren Discord-Server</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#about">Über</a>
+        <a href="#updates">Updates</a>
+        <a href="#team">Team</a>
+        <a href="#rules">Regeln</a>
+        <button class="btn ghost" id="editToggle">🔒 Bearbeiten</button>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="card hero-left">
+        <h2>Willkommen auf der Zentrale</h2>
+        <p class="lead">Hey 👋 wir sind <strong>Zentrale</strong>! Bei uns kannst du Spaß haben, neue Leute kennenlernen und in einer freundlichen Community abhängen.</p>
+        <ul class="lead">
+          <li>😄 Spaßiger Ort für jeden</li>
+          <li>🌍 24/7 aktive und nette Teamler</li>
+          <li>🚓 Eigener FiveM Roleplay Server</li>
+          <li>🎮 Coole Minigames & Community-Events</li>
+        </ul>
+        <div class="cta">
+          <!-- öffnet Invite in neuem Tab -->
+          <a class="btn" href="https://discord.gg/xrUYstHgy2" target="_blank" rel="noopener noreferrer">Discord beitreten</a>
+          <button class="btn ghost" id="exportBtn">Exportieren</button>
+        </div>
+        <div class="stats" style="margin-top:18px">
+          <div class="stat"><div style="font-weight:700" id="statMembers">—</div><div class="meta">Mitglieder</div></div>
+          <div class="stat"><div style="font-weight:700" id="statOnline">—</div><div class="meta">Online</div></div>
+        </div>
+      </div>
+
+      <aside class="right">
+        <div class="card" id="invite">
+          <h3>Server Einladung</h3>
+          <p class="meta">Kopiere den Einladungslink oder nutze den Beitreten-Button.</p>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <input id="inviteLink" class="editable" value="https://discord.gg/xrUYstHgy2" style="flex:1" />
+            <button class="btn" id="copyInvite">Kopieren</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Schnellzugriff</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <button class="btn ghost" onclick="document.getElementById('updatesSec').scrollIntoView({behavior:'smooth'})">Updates</button>
+            <button class="btn ghost" onclick="document.getElementById('teamSec').scrollIntoView({behavior:'smooth'})">Team</button>
+            <button class="btn ghost" onclick="document.getElementById('rulesSec').scrollIntoView({behavior:'smooth'})">Regeln</button>
+          </div>
+        </div>
+      </aside>
     </div>
-    <div class="members">
-      <div><strong>Mitglieder</strong></div>
-      <div id="memberList">Lädt…</div>
-    </div>
-  </aside>
 
-  <main class="main">
-    <div class="topbar">
-      <div class="title">Zentrale Dashboard</div>
-      <div class="controls">
-        <div class="notice">Local Save</div>
-        <button class="btn" id="exportBtn">Export JSON</button>
-        <button class="btn" id="importBtn">Import JSON</button>
-        <input id="fileInput" type="file" class="hidden" accept="application/json" />
-      </div>
+    <div class="banner">
+      <h2>Über uns 💡</h2>
+      <p>Wir sind die <strong>Zentrale</strong> — dein Platz für Spaß, Roleplay und Community. Ob FiveM-Roleplay, Minigames oder einfach nette Gespräche: hier findest du alles. Unser Team ist 24/7 für dich da und freut sich auf dich!</p>
     </div>
 
-    <section class="card item" id="updatesItem">
-      <div class="item-head" data-target="updatesBody">
-        <div><strong>Updates</strong><div class="meta">Wichtige Änderungen & Versionshinweise</div></div>
-        <div class="inline">
-          <button class="btn" data-action="toggle">Anzeigen</button>
-          <div class="chev">▶</div>
+    <div class="grid">
+      <main>
+        <section id="about" class="card">
+          <div class="section-title"><h3>Über den Server</h3><div class="meta">Kurzbeschreibung</div></div>
+          <p class="meta" id="aboutText">Dieser Server ist der zentrale Treffpunkt für unsere Community. Themen: Support, Events, Kooperationen und mehr.</p>
+        </section>
+
+        <section id="updatesSec" class="collapsible" style="margin-top:12px">
+          <div class="head"><div><strong>Updates</strong><div class="meta">Wichtige Änderungen & Versionshinweise</div></div><div class="chev">▶</div></div>
+          <div class="body" id="updatesBody">
+            <div id="updatesContent" class="editable" contenteditable="false">Keine Updates vorhanden. Klicke "🔒 Bearbeiten" und gib das Passwort ein, um Inhalte zu ändern.</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn ghost" id="saveUpdates">Speichern</button>
+              <button class="btn" id="resetUpdates">Zurücksetzen</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="teamSec" class="collapsible" style="margin-top:12px">
+          <div class="head"><div><strong>Team</strong><div class="meta">Vorstellung unserer Moderatoren</div></div><div class="chev">▶</div></div>
+          <div class="body" id="teamBody">
+            <div id="teamContent" class="editable" contenteditable="false">Keine Teammitglieder. Entsperren mit Passwort, um Mitglieder hinzuzufügen.</div>
+            <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+              <input id="newMember" class="editable" placeholder="Name hinzufügen" style="flex:1" disabled />
+              <button class="btn" id="addMember" disabled>Hinzufügen</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn ghost" id="saveTeam">Speichern</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="rulesSec" class="collapsible" style="margin-top:12px">
+          <div class="head"><div><strong>Regeln</strong><div class="meta">Server-Regeln & Verhaltenskodex</div></div><div class="chev">▶</div></div>
+          <div class="body" id="rulesBody">
+            <div id="rulesContent" class="editable" contenteditable="false">1) Respektiere andere. 2) Keine Werbung ohne Erlaubnis. 3) Folgen den Moderatoren.</div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn ghost" id="saveRules">Speichern</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <aside class="right">
+        <div class="card">
+          <h3>Mitglieder</h3>
+          <div class="member-list" id="membersBox">Lädt…</div>
         </div>
-      </div>
-      <div class="item-body" id="updatesBody">
-        <div class="meta">Dieser Bereich ist geschützt — nur mit Passwort editierbar.</div>
-        <div style="height:8px"></div>
-        <div id="updatesContent" class="editable" contenteditable="false">Keine Updates vorhanden. Klicke das Schloss, um Änderungen zu entsperren (PashaV).</div>
-        <div style="height:8px"></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input id="updatesPass" class="small-input" placeholder="Passwort eingeben" />
-          <button class="btn" data-action="unlock" data-section="updates">Schloss öffnen</button>
-          <button class="btn" data-action="save" data-section="updates">Speichern</button>
+
+        <div class="card">
+          <h3>Sicherung</h3>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" id="exportJson">Export JSON</button>
+            <button class="btn ghost" id="importJsonBtn">Import</button>
+            <input type="file" id="fileInput" accept="application/json" style="display:none" />
+          </div>
+          <div class="meta" style="margin-top:8px">Daten werden lokal im Browser gespeichert (localStorage). Exportiere regelmäßig als Backup.</div>
         </div>
-      </div>
-    </section>
+      </aside>
+    </div>
 
-    <section class="card item" id="teamItem">
-      <div class="item-head" data-target="teamBody">
-        <div><strong>Neues Team</strong><div class="meta">Hier neue Teammitglieder hinzufügen oder vorstellen</div></div>
-        <div class="inline">
-          <button class="btn" data-action="toggle">Anzeigen</button>
-          <div class="chev">▶</div>
-        </div>
-      </div>
-      <div class="item-body" id="teamBody">
-        <div class="meta">Passwort-geschützt für Änderungen (nur wichtige Bereiche).</div>
-        <div style="height:8px"></div>
-        <div id="teamContent" class="editable" contenteditable="false">Keine neuen Team-Mitglieder.</div>
-        <div style="height:8px"></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input id="teamPass" class="small-input" placeholder="Passwort eingeben" />
-          <button class="btn" data-action="unlock" data-section="team">Schloss öffnen</button>
-          <button class="btn" data-action="save" data-section="team">Speichern</button>
-        </div>
-        <div style="height:6px"></div>
-        <div style="display:flex;gap:8px">
-          <input id="newMemberName" class="small-input" placeholder="Name hinzufügen" />
-          <button class="btn" id="addMemberBtn">Hinzufügen</button>
-        </div>
-      </div>
-    </section>
+    <footer>Passwort für Bearbeitung: <strong>PashaV</strong> — Hinweis: Passwort-Prüfung ist clientseitig und eignet sich für lokale Nutzung. Für echte Sicherheit wird ein Server benötigt.</footer>
+  </div>
 
-    <section class="card">
-      <h3>Allgemeine Informationen</h3>
-      <p class="notice">Diese Seite speichert alles lokal in deinem Browser (localStorage). Du kannst exportieren/importieren, oder die Datei auf GitHub Pages / Netlify hosten (kostenlos).</p>
-    </section>
+  <script>
+    (function(){
+      const PASSWORD = 'PashaV';
+      const STORAGE = 'zentrale_home_v2';
 
-    <footer>Speichern: Automatisch beim Klick auf "Speichern". Passwort-Phrase: <strong>PashaV</strong></footer>
-  </main>
-</div>
+      // Elements
+      const editToggle = document.getElementById('editToggle');
+      const updatesContent = document.getElementById('updatesContent');
+      const teamContent = document.getElementById('teamContent');
+      const rulesContent = document.getElementById('rulesContent');
+      const membersBox = document.getElementById('membersBox');
+      const statMembers = document.getElementById('statMembers');
+      const statOnline = document.getElementById('statOnline');
+      const inviteLink = document.getElementById('inviteLink');
 
-<script>
-(function(){
-  // Constants
-  const PASSWORD = 'PashaV'; // client-side check — nur lokal, nicht sicher
-  const STORAGE_KEY = 'zentrale_data_v1';
+      // Buttons / inputs
+      const addMemberBtn = document.getElementById('addMember');
+      const newMemberInput = document.getElementById('newMember');
+      const saveUpdatesBtn = document.getElementById('saveUpdates');
+      const saveTeamBtn = document.getElementById('saveTeam');
+      const saveRulesBtn = document.getElementById('saveRules');
+      const resetUpdatesBtn = document.getElementById('resetUpdates');
+      const exportJsonBtn = document.getElementById('exportJson');
+      const exportBtnHero = document.getElementById('exportBtn');
+      const importJsonBtn = document.getElementById('importJsonBtn');
+      const fileInput = document.getElementById('fileInput');
+      const copyInviteBtn = document.getElementById('copyInvite');
 
-  // Elements
-  const channels = document.getElementById('channelsList');
-  const memberList = document.getElementById('memberList');
-  const updatesBody = document.getElementById('updatesBody');
-  const teamBody = document.getElementById('teamBody');
-  const updatesContent = document.getElementById('updatesContent');
-  const teamContent = document.getElementById('teamContent');
-  const exportBtn = document.getElementById('exportBtn');
-  const importBtn = document.getElementById('importBtn');
-  const fileInput = document.getElementById('fileInput');
-  const addMemberBtn = document.getElementById('addMemberBtn');
-  const newMemberName = document.getElementById('newMemberName');
+      // initial state
+      let state = {
+        about: document.getElementById('aboutText').innerText,
+        updates: updatesContent.innerHTML,
+        team: teamContent.innerHTML,
+        rules: rulesContent.innerHTML,
+        members: ['Admin'],
+        invite: inviteLink.value || 'https://discord.gg/xrUYstHgy2'
+      };
 
-  // initial data
-  let state = {
-    members: ['Admin'],
-    updates: updatesContent.innerHTML,
-    team: teamContent.innerHTML
-  };
-
-  // Load from localStorage if present
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw){
-        const parsed = JSON.parse(raw);
-        state = Object.assign(state, parsed);
+      // load saved state
+      function load(){
+        try{
+          const raw = localStorage.getItem(STORAGE);
+          if(raw){
+            const parsed = JSON.parse(raw);
+            state = Object.assign(state, parsed);
+          }
+        }catch(e){ console.warn('load error', e) }
+        applyState();
       }
-    }catch(e){console.warn('load error',e)}
-    renderFromState();
-  }
 
-  function saveState(){
-    try{
-      state.updates = updatesContent.innerHTML;
-      state.team = teamContent.innerHTML;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      alert('Gespeichert (localStorage)');
-    }catch(e){alert('Speicherfehler: '+e)}
-  }
-
-  function renderFromState(){
-    memberList.innerText = state.members.join(', ');
-    updatesContent.innerHTML = state.updates || 'Keine Updates vorhanden.';
-    teamContent.innerHTML = state.team || 'Keine neuen Team-Mitglieder.';
-  }
-
-  // Collapse toggles
-  document.querySelectorAll('.item-head').forEach(head=>{
-    head.addEventListener('click', (e)=>{
-      // if clicked on inputs/buttons inside head ignore
-      if(e.target.tagName === 'BUTTON') return;
-      const target = head.dataset.target;
-      const body = document.getElementById(target);
-      const chev = head.querySelector('.chev');
-      if(body.classList.contains('open')){
-        body.style.maxHeight = '0px';
-        body.classList.remove('open');
-        chev.classList.remove('open');
-      }else{
-        body.classList.add('open');
-        body.style.maxHeight = body.scrollHeight + 40 + 'px';
-        chev.classList.add('open');
+      function save(){
+        try{
+          state.updates = updatesContent.innerHTML;
+          state.team = teamContent.innerHTML;
+          state.rules = rulesContent.innerHTML;
+          state.invite = inviteLink.value;
+          localStorage.setItem(STORAGE, JSON.stringify(state));
+          alert('Gespeichert (local)');
+          renderMembers();
+        }catch(e){ alert('Speicherfehler: ' + e) }
       }
-    });
-  });
 
-  // Buttons inside heads (toggle text)
-  document.querySelectorAll('[data-action="toggle"]').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const head = btn.closest('.item-head');
-      head.click();
-    });
-  });
-
-  // Unlock and Save actions
-  document.querySelectorAll('[data-action="unlock"]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const section = btn.dataset.section;
-      const passInput = document.getElementById(section + 'Pass');
-      if(passInput.value === PASSWORD){
-        if(section === 'updates') updatesContent.contentEditable = 'true';
-        if(section === 'team') teamContent.contentEditable = 'true';
-        alert('Bearbeiten freigeschaltet für: ' + section);
-      }else{
-        alert('Falsches Passwort');
+      function applyState(){
+        updatesContent.innerHTML = state.updates || 'Keine Updates.';
+        teamContent.innerHTML = state.team || 'Kein Team.';
+        rulesContent.innerHTML = state.rules || 'Keine Regeln definiert.';
+        inviteLink.value = state.invite || 'https://discord.gg/xrUYstHgy2';
+        renderMembers();
       }
-      passInput.value = '';
-    });
-  });
 
-  document.querySelectorAll('[data-action="save"]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      saveState();
-    });
-  });
-
-  // Add member (only works if teamContent is editable)
-  addMemberBtn.addEventListener('click', ()=>{
-    const name = newMemberName.value.trim();
-    if(!name) return alert('Name eingeben');
-    state.members.push(name);
-    // update team content visually too
-    const extra = '<div>• ' + escapeHtml(name) + '</div>';
-    teamContent.innerHTML = teamContent.innerHTML + extra;
-    newMemberName.value = '';
-    renderFromState();
-    saveState();
-  });
-
-  // Export/Import
-  exportBtn.addEventListener('click', ()=>{
-    const dataStr = JSON.stringify(state, null, 2);
-    const blob = new Blob([dataStr], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'zentrale_export.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  });
-
-  importBtn.addEventListener('click', ()=>fileInput.click());
-  fileInput.addEventListener('change', (e)=>{
-    const f = e.target.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = ()=>{
-      try{
-        const parsed = JSON.parse(reader.result);
-        state = Object.assign(state, parsed);
-        saveState();
-        renderFromState();
-        alert('Import erfolgreich');
-      }catch(err){alert('Import fehlgeschlagen: ' + err)}
-    };
-    reader.readAsText(f);
-  });
-
-  // Simple search (filters channels list)
-  document.getElementById('quickSearch').addEventListener('input', (e)=>{
-    const q = e.target.value.toLowerCase();
-    document.querySelectorAll('.channel').forEach(ch=>{
-      ch.style.display = ch.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
-    });
-  });
-
-  // Channel click
-  document.querySelectorAll('.channel').forEach(ch=>{
-    ch.addEventListener('click', ()=>{
-      document.querySelectorAll('.channel').forEach(c=>c.classList.remove('active'));
-      ch.classList.add('active');
-      const name = ch.dataset.channel;
-      // basic behavior: focus certain section
-      if(name === 'updates'){
-        document.getElementById('updatesItem').scrollIntoView({behavior:'smooth'});
-      }else if(name === 'team'){
-        document.getElementById('teamItem').scrollIntoView({behavior:'smooth'});
+      function renderMembers(){
+        membersBox.innerHTML = '';
+        state.members.forEach((m, i)=>{
+          const el = document.createElement('div');
+          el.className = 'member';
+          el.innerHTML = '<div>'+escapeHtml(m)+'</div><div class="meta">'+(i===0? 'Owner' : 'Member')+'</div>';
+          membersBox.appendChild(el);
+        });
+        statMembers.innerText = state.members.length;
+        statOnline.innerText = Math.max(1, Math.floor(state.members.length/3));
       }
-    });
-  });
 
-  // helpers
-  function escapeHtml(s){return s.replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+      function escapeHtml(s){ return String(s).replace(/[&<>\\"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-  // initial load
-  loadState();
+      // collapsible behaviour
+      document.querySelectorAll('.collapsible .head').forEach(head=>{
+        head.addEventListener('click', ()=>{
+          const body = head.nextElementSibling;
+          const chev = head.querySelector('.chev');
+          if(body.classList.contains('open')){ body.classList.remove('open'); chev.style.transform = 'rotate(0)'; }
+          else{ body.classList.add('open'); chev.style.transform = 'rotate(90deg)'; }
+        });
+      });
 
-  // Expose for console (optional)
-  window.__Zentrale = {state, saveState, loadState};
-})();
-</script>
+      // Edit toggle: prompt for password to enable, click again to disable
+      editToggle.addEventListener('click', ()=>{
+        const unlocked = editToggle.textContent.includes('🔓');
+        if(unlocked){
+          // lock without pw
+          if(confirm('Bearbeitung deaktivieren? Alle ungespeicherten Änderungen gehen verloren.')) {
+            enableEditing(false);
+            alert('Bearbeitung deaktiviert.');
+            // reload to restore from saved state (optional)
+            load();
+          }
+          return;
+        }
+        const pw = prompt('Passwort eingeben, um Bearbeiten zu aktivieren:');
+        if(pw === null) return;
+        if(pw === PASSWORD){
+          enableEditing(true);
+          alert('Bearbeiten aktiviert — sichere dein Backup nach Änderungen.');
+        }else{ alert('Falsches Passwort'); }
+      });
+
+      function enableEditing(on){
+        [updatesContent, teamContent, rulesContent].forEach(el=>el.contentEditable = on ? 'true' : 'false');
+        newMemberInput.disabled = !on;
+        addMemberBtn.disabled = !on;
+        editToggle.textContent = on ? '🔓 Bearbeiten' : '🔒 Bearbeiten';
+      }
+
+      // add member
+      addMemberBtn.addEventListener('click', ()=>{
+        const name = newMemberInput.value.trim();
+        if(!name) return alert('Gib einen Namen ein');
+        state.members.push(name);
+        newMemberInput.value = '';
+        renderMembers();
+        save();
+      });
+
+      // save buttons
+      saveUpdatesBtn.addEventListener('click', save);
+      saveTeamBtn.addEventListener('click', save);
+      saveRulesBtn.addEventListener('click', save);
+      resetUpdatesBtn.addEventListener('click', ()=>{ if(confirm('Update-Inhalt zurücksetzen?')){ updatesContent.innerHTML = 'Keine Updates.'; save(); } });
+
+      // export / import
+      function exportJson(){
+        const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'zentrale_backup.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }
+      exportJsonBtn.addEventListener('click', exportJson);
+      exportBtnHero.addEventListener('click', exportJson);
+
+      importJsonBtn.addEventListener('click', ()=>fileInput.click());
+      fileInput.addEventListener('change', (e)=>{
+        const f = e.target.files[0]; if(!f) return;
+        const r = new FileReader(); r.onload = ()=>{
+          try{
+            const parsed = JSON.parse(r.result);
+            // merge but prefer imported full structure
+            state = Object.assign({}, state, parsed);
+            save();
+            applyState();
+            alert('Import erfolgreich');
+          }catch(err){ alert('Import fehlgeschlagen: ' + err) }
+        }; r.readAsText(f);
+      });
+
+      // copy invite
+      copyInviteBtn.addEventListener('click', ()=>{
+        const val = inviteLink.value.trim();
+        if(!val) return alert('Kein Link eingetragen');
+        navigator.clipboard.writeText(val).then(()=>alert('Link kopiert'), ()=>alert('Kopieren nicht möglich'));
+      });
+
+      // hero "Discord beitreten" uses direct invite link (anchor) - nothing to do here
+
+      // initial load
+      load();
+      enableEditing(false);
+
+      // expose for debugging (optional)
+      window.__ZentraleHome = {state, save, load};
+    })();
+  </script>
 </body>
 </html>
-
