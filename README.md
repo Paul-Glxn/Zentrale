@@ -1,195 +1,210 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zentrum — Discord Homepage</title>
-<style>
-:root{
-  --bg:#f0f4f8; --card:#ffffff; --text:#111; --muted:#555; --accent:#5865f2; --shadow:rgba(0,0,0,0.08);
-  --accent-light:#7289da;
-}
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif;}
-body{background:var(--bg);color:var(--text);}
-a{text-decoration:none;color:inherit;}
-.container{max-width:1000px;margin:20px auto;padding:10px;}
-header{display:flex;justify-content:space-between;align-items:center;padding:10px;}
-.logo{font-weight:bold;font-size:28px;color:var(--accent);}
-nav a{margin-left:10px;padding:6px 12px;border-radius:8px;background:#e0e0e0;font-size:14px;transition:0.3s;}
-nav a:hover{background:var(--accent-light);color:white;}
-nav button{margin-left:10px;padding:6px 12px;border-radius:8px;background:var(--accent);color:white;border:none;cursor:pointer;transition:0.3s;}
-nav button:hover{opacity:0.9;}
-.hero{background:#dce6ff;padding:25px;border-radius:16px;margin-top:10px;box-shadow:0 6px 16px var(--shadow);}
-.hero h1{font-size:32px;margin-bottom:12px;}
-.hero p, .hero ul{margin-bottom:12px;}
-.hero ul{list-style:none;padding-left:0;}
-.hero ul li{margin-bottom:6px;font-size:16px;}
-.btn{background:var(--accent);color:white;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;transition:0.2s;}
-.btn:hover{opacity:0.85;}
-.card{background:var(--card);padding:20px;border-radius:14px;margin-top:14px;box-shadow:0 4px 12px var(--shadow);}
-.editable{border:1px dashed #ccc;padding:8px;border-radius:8px;min-height:28px;}
-.team-member{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee;}
-select, input[type=text]{padding:6px 8px;border-radius:8px;border:1px solid #ccc;}
-section h2{margin-bottom:10px;color:var(--accent);}
-footer{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;}
-</style>
+  <meta charset="UTF-8">
+  <title>Zentrum – Community</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ===== Reset & Base ===== */
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:#f8f9fc;
+      color:#222;
+      line-height:1.6;
+    }
+    a {color:#5865F2;text-decoration:none;}
+    h1,h2,h3 {font-weight:600;margin-bottom:10px;color:#111;}
+
+    /* ===== Layout ===== */
+    header {
+      text-align:center;
+      padding:60px 20px;
+      background:linear-gradient(135deg,#5865F2,#8892f6);
+      color:white;
+    }
+    header h1 {font-size:2.8rem;margin-bottom:10px;}
+    header p {font-size:1.2rem;margin-bottom:20px;}
+    header a {
+      display:inline-block;
+      background:white;
+      color:#5865F2;
+      padding:12px 24px;
+      border-radius:8px;
+      font-weight:600;
+      transition:0.3s;
+    }
+    header a:hover {background:#e7e9ff;}
+
+    main {max-width:900px;margin:40px auto;padding:0 20px;}
+    section {background:white;margin-bottom:30px;padding:25px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+    section h2 {margin-bottom:15px;color:#5865F2;}
+
+    /* Team Styling */
+    #team h3 {margin-top:15px;color:#333;}
+    #team ul {list-style:none;padding-left:15px;}
+    #team li {padding:3px 0;}
+
+    /* Updates editable */
+    #updates[contenteditable="true"] {
+      outline:2px dashed #5865F2;
+      background:#f0f2ff;
+    }
+
+    /* Footer */
+    footer {
+      text-align:center;
+      padding:20px;
+      font-size:0.9rem;
+      color:#555;
+    }
+
+    /* Button */
+    .btn {
+      display:inline-block;
+      padding:8px 16px;
+      background:#5865F2;
+      color:white !important;
+      border-radius:6px;
+      font-size:0.9rem;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    .btn:hover {background:#4752c4;}
+  </style>
 </head>
 <body>
-<div class="container">
+
   <header>
-    <div class="logo">Zentrum</div>
-    <nav>
-      <a href="#about">Über</a>
-      <a href="#updates">Updates</a>
-      <a href="#team">Team</a>
-      <a href="#rules">Regeln</a>
-      <button id="loginBtn">Admin Login</button>
-    </nav>
+    <h1>Zentrum</h1>
+    <p>Dein Platz für Spaß, Community & Roleplay</p>
+    <a href="https://discord.gg/xrUYstHgy2" target="_blank">💬 Discord beitreten</a>
   </header>
 
-  <div class="hero">
-    <h1>Willkommen bei Zentrum 👋</h1>
-    <p>Hey, wir sind Zentrum! Bei uns kannst du Spaß haben, neue Leute kennenlernen und coole Events erleben.</p>
-    <ul>
-      <li>😄 Spaßiger Ort für jeden</li>
-      <li>🌍 24/7 nette Teamler</li>
-      <li>🚓 Eigener FiveM Roleplay Server</li>
-      <li>🎮 Minigames & Community</li>
-    </ul>
-    <a class="btn" href="https://discord.gg/xrUYstHgy2" target="_blank">Discord beitreten</a>
-  </div>
+  <main>
+    <!-- Über uns -->
+    <section id="about">
+      <h2>Über uns</h2>
+      <p>
+        Hey 👋 wir sind <b>Zentrum</b>!  
+        Bei uns findest du eine bunte Community mit viel Spaß, 24/7 aktiven Teamlern
+        und jeder Menge Unterhaltung. Ob unser eigener FiveM Roleplay Server, spannende Minigames,
+        Events oder einfach nur chillige Gespräche – hier ist für jeden etwas dabei.  
+        Tauche ein, lerne neue Leute kennen und werde Teil unseres Teams!
+      </p>
+    </section>
 
-  <section id="about" class="card">
-    <h2>Über uns</h2>
-    <div id="aboutText" class="editable" contenteditable="false">
-      Wir sind das Zentrum — dein Platz für Spaß, Roleplay und Community. Unser Team ist 24/7 für dich da!
-    </div>
-  </section>
+    <!-- Updates -->
+    <section id="updates-section">
+      <h2>Updates</h2>
+      <div id="updates">✏️ Melde dich als Admin an, um hier Updates einzutragen!</div>
+      <button class="btn" onclick="login()">🔒 Admin Login</button>
+    </section>
 
-  <section id="updates" class="card">
-    <h2>Updates</h2>
-    <div id="updatesText" class="editable" contenteditable="false">Keine Updates verfügbar.</div>
-  </section>
+    <!-- Regeln -->
+    <section id="rules">
+      <h2>Regeln</h2>
+      <h3>1. Respekt und Fairness:</h3>
+      <p>Behandle alle Mitglieder mit Höflichkeit. Keine Beleidigungen, Diskriminierung oder Mrown-Larp.</p>
 
-  <section id="rules" class="card">
-    <h2>Regeln</h2>
-    <div id="rulesText" class="editable" contenteditable="false">
-      1) Respektiere andere<br>
-      2) Keine Werbung ohne Erlaubnis<br>
-      3) Folge den Moderatoren
-    </div>
-  </section>
+      <h3>2. Keine Nacktheit oder schädliche Inhalte:</h3>
+      <p>Keine pornografischen, gewaltverherrlichenden oder illegalen Materialien.</p>
 
-  <section id="team" class="card">
-    <h2>Team</h2>
-    <div id="teamList"></div>
-    <div style="margin-top:10px;">
-      <input type="text" id="newName" placeholder="Name hinzufügen" disabled>
-      <select id="newRole" disabled>
-        <option>Owner 👑</option>
-        <option>Administrator 🛠</option>
-        <option>Entwickler 💻</option>
-        <option>Supporter 🛡</option>
-        <option>Test Supporter 🧪</option>
-      </select>
-      <button id="addMemberBtn" disabled>Hinzufügen</button>
-    </div>
-  </section>
+      <h3>3. Relevanz:</h3>
+      <p>Poste themenbezogen in den passenden Channels. Spam vermeiden.</p>
 
-  <div style="margin-top:20px;">
-    <button id="saveBtn" class="btn" disabled>Änderungen speichern</button>
-    <button id="exportBtn" class="btn" disabled>Export JSON</button>
-    <input type="file" id="importFile" style="display:none">
-    <button id="importBtn" class="btn" disabled>Import JSON</button>
-  </div>
+      <h3>4. Privatsphäre:</h3>
+      <p>Keine Weitergabe persönlicher Daten anderer ohne Zustimmung.</p>
 
-  <footer>© 2025 Zentrum Discord Community</footer>
-</div>
+      <h3>5. Moderationsrespekt:</h3>
+      <p>Folge Anweisungen des Moderationsteams. Konflikte ruhig melden.</p>
 
-<script>
-const PASSWORD='PashaV';
-let admin=false;
-let state={
-  about: document.getElementById('aboutText').innerHTML,
-  updates: document.getElementById('updatesText').innerHTML,
-  rules: document.getElementById('rulesText').innerHTML,
-  team:[{name:'Admin',role:'Owner 👑'}]
-};
+      <h3>6. Sicherheit:</h3>
+      <p>Keine Aufforderung zu illegalen Aktivitäten; keine Hacks oder Anleitungen dazu.</p>
 
-function renderTeam(){
-  const teamDiv=document.getElementById('teamList');
-  teamDiv.innerHTML='';
-  state.team.forEach((m,i)=>{
-    const div=document.createElement('div');
-    div.className='team-member';
-    div.innerHTML=`<span>${m.name} (${m.role})</span>
-      <span>${admin? '<button onclick="editRole('+i+')">✏️</button><button onclick="removeMember('+i+')">❌</button>':''}</span>`;
-    teamDiv.appendChild(div);
-  });
-}
+      <h3>7. Werbung:</h3>
+      <p>Keine Eigenwerbung ohne Erlaubnis der Moderation.</p>
 
-function enableAdmin(on){
-  admin=on;
-  ['aboutText','updatesText','rulesText'].forEach(id=>{
-    document.getElementById(id).contentEditable=on;
-  });
-  ['newName','newRole','addMemberBtn','saveBtn','exportBtn','importBtn'].forEach(id=>{
-    document.getElementById(id).disabled=!on;
-  });
-  renderTeam();
-}
+      <h3>8. Sprache:</h3>
+      <p>Klare, freundliche Kommunikation; Vermeide Troll-Verhalten.</p>
 
-document.getElementById('loginBtn').addEventListener('click',()=>{
-  const pw=prompt('Passwort eingeben:');
-  if(pw===PASSWORD){
-    enableAdmin(true);
-    alert('Admin aktiviert!');
-  } else alert('Falsches Passwort');
-});
+      <h3>9. Channel-Regeln:</h3>
+      <p>Nutze spezielle Channels nur für deren Zweck (Ankündigungen, Diskussion, Hilfe, etc.).</p>
 
-document.getElementById('addMemberBtn').addEventListener('click',()=>{
-  const name=document.getElementById('newName').value.trim();
-  const role=document.getElementById('newRole').value;
-  if(name){ state.team.push({name,role}); document.getElementById('newName').value=''; renderTeam(); }
-});
+      <h3>10. Datenschutz & Transparenz:</h3>
+      <p>Wichtige Moderationsentscheidungen werden erklärt; Feedback willkommen.</p>
 
-function editRole(i){
-  const newRole=prompt('Neue Rolle auswählen:\nOwner 👑,Administrator 🛠,Entwickler 💻,Supporter 🛡,Test Supporter 🧪',state.team[i].role);
-  if(newRole) state.team[i].role=newRole; renderTeam();
-}
+      <p>👉 Lies auch die offiziellen <a href="https://discord.com/terms" target="_blank">Discord ToS</a>.</p>
+    </section>
 
-function removeMember(i){
-  if(confirm('Entfernen?')){ state.team.splice(i,1); renderTeam(); }
-}
+    <!-- Team -->
+    <section id="team">
+      <h2>👥 Unser Zentrum Team</h2>
+      <p>Hier findest du alle unsere Teammitglieder</p>
 
-document.getElementById('saveBtn').addEventListener('click',()=>{
-  state.about=document.getElementById('aboutText').innerHTML;
-  state.updates=document.getElementById('updatesText').innerHTML;
-  state.rules=document.getElementById('rulesText').innerHTML;
-  localStorage.setItem('zentrum_state',JSON.stringify(state));
-  alert('Gespeichert!');
-});
+      <h3>👑 Owner</h3>
+      <ul><li>[₲ⱠӾ₦] ₴Ɇ₵ɄⱤł₮Ɏ</li></ul>
 
-document.getElementById('exportBtn').addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='zentrum_backup.json'; a.click();
-});
+      <h3>🛠 Administrator</h3>
+      <ul><li>Julian</li></ul>
 
-document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
-document.getElementById('importFile').addEventListener('change',e=>{
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{ state=JSON.parse(reader.result); document.getElementById('aboutText').innerHTML=state.about; document.getElementById('updatesText').innerHTML=state.updates; document.getElementById('rulesText').innerHTML=state.rules; renderTeam(); }
-  reader.readAsText(file);
-});
+      <h3>💻 Entwickler</h3>
+      <ul>
+        <li>[₲ⱠӾ₦] 𝐁𝐥𝐱𝐳𝐞</li>
+        <li>[₲ⱠӾ₦] Paul</li>
+      </ul>
 
-// load saved
-const saved=localStorage.getItem('zentrum_state');
-if(saved) state=JSON.parse(saved);
-document.getElementById('aboutText').innerHTML=state.about;
-document.getElementById('updatesText').innerHTML=state.updates;
-document.getElementById('rulesText').innerHTML=state.rules;
-renderTeam();
-</script>
+      <h3>🛡 Moderator</h3>
+      <ul><li>[₲ⱠӾ₦] Contrax</li></ul>
+
+      <h3>🙋 Supporter</h3>
+      <ul>
+        <li>[₲ⱠӾ₦] alocinelia_YT</li>
+        <li>[₲ⱠӾ₦] 𝐒𝐇𝐀𝐃𝐎𝐖</li>
+        <li>! [₲ⱠӾ₦] Anonyme</li>
+      </ul>
+
+      <h3>🧪 Test Supporter</h3>
+      <ul>
+        <li>DerZocker1707</li>
+        <li>PokelotlYT</li>
+        <li>ENDMAGIER</li>
+        <li>Alex Gaming pro YT</li>
+        <li>MaxTechTV</li>
+        <li>LUKASHDD</li>
+        <li>Z | Waggon</li>
+        <li>ZyqroX</li>
+        <li>LustigeKatze</li>
+        <li>Leo_the_real</li>
+        <li>YourCuteFemboy</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    Zentrum © 2025 – Alle Rechte vorbehalten
+  </footer>
+
+  <script>
+    // Admin Login
+    function login() {
+      const pw = prompt("Bitte Admin-Passwort eingeben:");
+      if (pw === "PashaV") {
+        document.getElementById("updates").setAttribute("contenteditable","true");
+        alert("✅ Admin-Modus aktiviert. Du kannst nun Updates bearbeiten.");
+      } else {
+        alert("❌ Falsches Passwort!");
+      }
+    }
+
+    // Speicherung in localStorage
+    const updatesDiv = document.getElementById("updates");
+    if(localStorage.getItem("updatesContent")){
+      updatesDiv.innerHTML = localStorage.getItem("updatesContent");
+    }
+    updatesDiv.addEventListener("input", () => {
+      localStorage.setItem("updatesContent", updatesDiv.innerHTML);
+    });
+  </script>
 </body>
 </html>
