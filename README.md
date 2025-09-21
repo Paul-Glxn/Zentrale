@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -23,7 +23,20 @@
       background:linear-gradient(135deg,#5865F2,#8892f6);
       color:white;
     }
-    header h1 {font-size:2.8rem;margin-bottom:10px;}
+    header .logo {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin-bottom:15px;
+    }
+    header .logo img {
+      height:80px;
+      border-radius:12px;
+    }
+    header .logo h1 {
+      font-size:2.8rem;
+    }
     header p {font-size:1.2rem;margin-bottom:20px;}
     header a {
       display:inline-block;
@@ -76,7 +89,10 @@
 <body>
 
   <header>
-    <h1>Zentrum</h1>
+    <div class="logo">
+      <img src="zentrum2.0.png" alt="Zentrum Logo">
+      <h1>Zentrum</h1>
+    </div>
     <p>Dein Platz für Spaß, Community & Roleplay</p>
     <a href="https://discord.gg/xrUYstHgy2" target="_blank">💬 Discord beitreten</a>
   </header>
