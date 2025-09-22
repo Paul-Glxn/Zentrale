@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -58,15 +58,18 @@
       margin-top: 0;
       color: #333;
     }
-    .updates-list p {
-      padding: 10px;
+    .updates-list div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
       border-bottom: 1px solid #eee;
     }
     ul {
       padding-left: 20px;
     }
     button {
-      padding: 10px 20px;
+      padding: 8px 16px;
       background: #5865F2;
       color: white;
       border: none;
@@ -77,6 +80,13 @@
     }
     button:hover {
       background: #404EED;
+    }
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: #e74c3c;
+      font-size: 1.1rem;
+      cursor: pointer;
     }
     input, textarea {
       width: 100%;
@@ -128,7 +138,7 @@
     </div>
     <div id="updateForm" style="display:none;">
       <input type="text" id="newUpdate" placeholder="Neues Update hinzufügen">
-      <button onclick="addUpdate()">Hinzufügen</button>
+      <button onclick="addUpdate()">➕ Hinzufügen</button>
     </div>
     <button onclick="checkPassword()">🔑 Admin-Modus aktivieren</button>
   </section>
@@ -224,6 +234,25 @@
 
   <!-- SCRIPT -->
   <script>
+    // Updates beim Laden anzeigen
+    window.onload = function() {
+      loadUpdates();
+    };
+
+    function loadUpdates() {
+      const savedUpdates = JSON.parse(localStorage.getItem("zentrumUpdates")) || [];
+      const updatesList = document.getElementById("updatesList");
+
+      if (savedUpdates.length === 0) {
+        updatesList.innerHTML = "<p>Keine Updates vorhanden.</p>";
+      } else {
+        updatesList.innerHTML = "";
+        savedUpdates.forEach((update, index) => {
+          addUpdateToDOM(update, index);
+        });
+      }
+    }
+
     function checkPassword() {
       const pw = prompt("Bitte Admin-Passwort eingeben:");
       if (pw === "PashaV") {
@@ -233,15 +262,46 @@
         alert("Falsches Passwort!");
       }
     }
+
     function addUpdate() {
       const input = document.getElementById("newUpdate");
       const text = input.value.trim();
+
       if (text) {
-        const p = document.createElement("p");
-        p.textContent = text;
-        document.getElementById("updatesList").appendChild(p);
+        let savedUpdates = JSON.parse(localStorage.getItem("zentrumUpdates")) || [];
+        savedUpdates.push(text);
+        localStorage.setItem("zentrumUpdates", JSON.stringify(savedUpdates));
+
+        loadUpdates(); // Liste neu aufbauen
         input.value = "";
       }
+    }
+
+    function addUpdateToDOM(text, index) {
+      const updatesList = document.getElementById("updatesList");
+
+      const div = document.createElement("div");
+
+      const p = document.createElement("span");
+      p.textContent = text;
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "❌";
+      delBtn.classList.add("delete-btn");
+      delBtn.onclick = function() {
+        deleteUpdate(index);
+      };
+
+      div.appendChild(p);
+      div.appendChild(delBtn);
+      updatesList.appendChild(div);
+    }
+
+    function deleteUpdate(index) {
+      let savedUpdates = JSON.parse(localStorage.getItem("zentrumUpdates")) || [];
+      savedUpdates.splice(index, 1); // Löscht 1 Element
+      localStorage.setItem("zentrumUpdates", JSON.stringify(savedUpdates));
+      loadUpdates();
     }
   </script>
 
